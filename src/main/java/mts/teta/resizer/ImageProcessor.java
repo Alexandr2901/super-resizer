@@ -119,14 +119,4 @@ public class ImageProcessor {
         }
         return extension;
     }
-
-    private String removeExtension(String path) {
-        int i = path.lastIndexOf('.');
-        int p = Math.max(path.lastIndexOf('/'), path.lastIndexOf('\\'));
-        if (i > p) {
-            System.out.println(path.substring(0, i));
-            return path.substring(0, i);
-        }
-        return path;
-    }
 }
