@@ -2,11 +2,14 @@ package mts.teta.resizer;
 
 import mts.teta.resizer.imageprocessor.BadAttributesException;
 import org.junit.jupiter.api.Test;
+import picocli.CommandLine;
 
 import javax.imageio.IIOException;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.net.URL;
 import java.nio.file.Paths;
 
@@ -211,5 +214,39 @@ class ResizerAppTest {
 
         assertEquals("Please check params!", generatedException.getMessage());
         assertEquals(BadAttributesException.class, generatedException.getClass());
+    }
+    @Test
+    public void testConsoleFull () throws Exception {
+        ResizerApp app = new ResizerApp();
+        CommandLine cmd = new CommandLine(app);
+        URL res = getClass().getClassLoader().getResource(FILM_COVER_SOURCE_NAME);
+        File input = Paths.get(res.toURI()).toFile();
+//        File output = new File("3.jpg");
+
+        String one = input.getAbsolutePath() + " "+
+                "--resize 3000 3000 " +
+                "--quality 67 " +
+                "--crop 60 32 182 62 " +
+                "--blur 10 " +
+                "--format png " +
+                "3.jpg";
+//                output.getAbsolutePath();
+//        System.out.println(one);
+        String[] commands = one.split(" ");
+        int exitCode = cmd.execute(commands);
+    }
+    @Test
+    public void testConsoleMin () throws Exception {
+        ResizerApp app = new ResizerApp();
+        CommandLine cmd = new CommandLine(app);
+        URL res = getClass().getClassLoader().getResource(FILM_COVER_SOURCE_NAME);
+        File input = Paths.get(res.toURI()).toFile();
+        File output = new File("3.jpg");
+
+        String one = input.getAbsolutePath() + " "+
+                output.getAbsolutePath();
+        System.out.println(one);
+        String[] commands = one.split(" ");
+        int exitCode = cmd.execute(commands);
     }
 }
